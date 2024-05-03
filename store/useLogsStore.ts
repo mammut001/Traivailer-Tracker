@@ -7,8 +7,6 @@ type DataListStore = {
     dataList: Item[],
     addItem: (item: Item) =>void
     cleanList: () =>void
-
-
 }
 
 export const useDataListStore = create<DataListStore>() ((set)=> ({

@@ -37,13 +37,13 @@ const SelectedDate = () =>{
       accessibilityLabel="Add"
     />
 
-      <Button
+      {/* <Button
       
         onPress={handleAdd}
         title="Add"
         color="#dddddd"
         accessibilityLabel="Add"
-      />
+      /> */}
 
       </View>
     )

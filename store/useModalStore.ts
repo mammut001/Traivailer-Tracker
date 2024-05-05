@@ -1,13 +1,32 @@
 import {create} from 'zustand'
-type SliderStore = {
-    hourRange: number[],
-    setSliderVal: (start:number, end:number)=>void
-}
-export const useSliderStore = create<SliderStore>() ((set) => ({
-    hourRange:[0.0,24],
-    setSliderVal:(start:number, end:number)=> set({hourRange:[start,end]})
 
+type OnFocusStore = {
+    onFocus: boolean,
+    setOnFocus: () => void
+}
+
+export const useOnFocusStore = create<OnFocusStore>() ((set) => ({
+    onFocus:false,
+    setOnFocus: ()=> set((state) =>({onFocus:!state.onFocus}))
 }))
+
+
+type validationStore = {
+    validationCheck: boolean,
+    setValidationCheckStatus: (input:boolean)=>void
+
+}
+
+export const useValidationCheckStatusStore = create<validationStore>() ((set)=>({
+    validationCheck:false,
+    setValidationCheckStatus:(input:boolean) => set((state) =>{
+        console.log("Current State Check. is " + state.validationCheck)
+        return{
+            validationCheck:input
+        }
+    })
+}))
+
 
 type ModalStatusStore = {
     OnDisplay:boolean,

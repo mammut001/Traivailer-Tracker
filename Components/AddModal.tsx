@@ -28,12 +28,12 @@ const AddModal = () =>{
         Number(start.slice(0, 2)) === 1
         if(((Number(start.slice(0,2)) >= 0)&&(Number(start.slice(0,2)) <= 23)) && ((Number(start.slice(2,4)) >=0 )&&(Number(start.slice(2,4)) <=59)) && 
         ((Number(end.slice(0,2)) >= 0)&&(Number(end.slice(0,2)) <= 23)) && ((Number(end.slice(2,4)) >=0 )&&(Number(end.slice(2,4)) <=59))){
-          setValadationStatus(true)
+          setValidationStatus(true)
           console.log("passed 111")
         }
         else{
           errorMsg = "Sorry, please retry."
-          setValadationStatus(false)
+          setValidationStatus(false)
           console.log("did not passed 222")
 
 
@@ -42,7 +42,7 @@ const AddModal = () =>{
       }
       else{
         errorMsg = "Pattern is wrong."
-        setValadationStatus(false)
+        setValidationStatus(false)
         console.log("did not passed 333")
 
       }
@@ -74,7 +74,7 @@ const AddModal = () =>{
           transparent={true}
           visible={status}
           onRequestClose={() => {
-            // theoratically, user should not request to close, but if they do, call setOnFocus to resize the modals.
+            // theoretically, user should not request to close, but if they do, call setOnFocus to resize the modals.
             Alert.alert('Modal has been closed.');
             setModalVisible();
             setOnFocus()

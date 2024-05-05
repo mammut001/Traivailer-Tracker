@@ -12,8 +12,9 @@ const AddModal = () =>{
     const setOnFocus = useOnFocusStore(state => state.setOnFocus)
 
     const validationCheck = useValidationCheckStatusStore(state => state.validationCheck)
-    const setValadationStatus = useValidationCheckStatusStore(state => state.setValidationCheckStatus)
-    var errorMsg = ""
+    const setValidationStatus = useValidationCheckStatusStore(state => state.setValidationCheckStatus)
+    // var errorMsg = ""
+    const [errorMsg, setErrorMsg] = React.useState('');
 
     const validateTest = () =>{
       console.log("Executing checks!")
@@ -32,7 +33,7 @@ const AddModal = () =>{
           console.log("passed 111")
         }
         else{
-          errorMsg = "Sorry, please retry."
+          setErrorMsg("Sorry, please retry.")
           setValidationStatus(false)
           console.log("did not passed 222")
 
@@ -41,7 +42,7 @@ const AddModal = () =>{
 
       }
       else{
-        errorMsg = "Pattern is wrong."
+        setErrorMsg("pattern is wrong.")
         setValidationStatus(false)
         console.log("did not passed 333")
 
@@ -167,7 +168,7 @@ const ModalStyles = StyleSheet.create({
 })
 const styles = StyleSheet.create({
     warning:{
-      fontSize:10,
+      fontSize:15,
       color:'red'
     
     },

@@ -2,6 +2,7 @@ import {Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, Platform} fr
 import { useModalStatusStore,useOnFocusStore, useValidationCheckStatusStore } from "../store/useModalStore"
 import React,{useEffect} from 'react';
 import DualThumbSlider from './Slider';
+
 const AddModal = () =>{
 
     const status = useModalStatusStore(state =>state.OnDisplay)
@@ -16,6 +17,23 @@ const AddModal = () =>{
     // var errorMsg = ""
     const [errorMsg, setErrorMsg] = React.useState('');
 
+
+    const handleOnChangeInputText = (newText:string) =>{
+      if (newText.length < 10){
+        if(newText.length < text.length){
+          onChangeText(newText)
+  
+        }
+        else{
+          if(text.length === 3 && newText.length === 4){
+            newText += '-'
+          }
+          onChangeText(newText)
+        }
+      }
+      console.log("Length is "+text.length + " New Length is "+ newText.length)
+
+    }
     const validateTest = () =>{
       console.log("Executing checks!")
       const regx = /^(\d{4})-(\d{4})$/
@@ -54,6 +72,10 @@ const AddModal = () =>{
       if (!validationCheck) {
           console.log("Failed Test!");
       }
+      else{
+        console.log("Passed Test")
+        setModalVisible()
+      }
   }, [validationCheck]);
 
     const androidModalStyle = ()=>{
@@ -86,7 +108,7 @@ const AddModal = () =>{
             <TextInput
               
               style={styles.inputTextField}
-              onChangeText={onChangeText}
+              onChangeText={handleOnChangeInputText}
               value={text}
               onFocus={setOnFocus}
               placeholder='Enter range eg. 1200-1600'
@@ -177,6 +199,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         fontSize:10,
+        width:'95%',
         marginTop:10
       },
     centeredView: {

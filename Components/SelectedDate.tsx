@@ -28,14 +28,14 @@ const SelectedDate = () =>{
     }
     return (
       <View style={styles.selectedDate}>
-      {/* <Text>Selected Date: {date} </Text>
+      <Text>Selected Date: {date} </Text>
       <Button
       
       onPress={handleClean}
       title="Clean"
       color="#dddddd"
       accessibilityLabel="Add"
-    /> */}
+    />
 
       {/* <Button
       

@@ -5,7 +5,7 @@ export type Item = {
 }
 type DataListStore = {
     dataList: Item[],
-    addItem: (item: Item) =>void
+    addItem: (item: Item) =>void,
     cleanList: () =>void
 }
 

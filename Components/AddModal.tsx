@@ -2,13 +2,19 @@ import {Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, Platform} fr
 import { useModalStatusStore,useOnFocusStore, useValidationCheckStatusStore } from "../store/useModalStore"
 import React,{useEffect} from 'react';
 import DualThumbSlider from './Slider';
+import { useDataListStore } from '../store/useLogsStore';
+import { useSelectedDateStore } from '../store/useSelectedDateStore';
+import { Item } from '../store/useLogsStore';
 
 const AddModal = () =>{
+    const selected_date = useSelectedDateStore(state => state.date)
+    const addItem = useDataListStore(state => state.addItem)
 
     const status = useModalStatusStore(state =>state.OnDisplay)
     const setModalVisible = useModalStatusStore(state => state.updateModalStatus)
     const [text, onChangeText] = React.useState('');
 
+    const [selectedTime, setSelectedTime] = React.useState(['','']) //0: start, 1:end
     const onFocus = useOnFocusStore(state =>state.onFocus)
     const setOnFocus = useOnFocusStore(state => state.setOnFocus)
 
@@ -43,7 +49,8 @@ const AddModal = () =>{
         const splitted = text.split("-")
         const start = splitted[0]
         const end = splitted[1]
-        console.log("Start:"+start," end :"+end)
+        setSelectedTime([start,end])
+        
         Number(start.slice(0, 2)) === 1
         if(((Number(start.slice(0,2)) >= 0)&&(Number(start.slice(0,2)) <= 23)) && ((Number(start.slice(2,4)) >=0 )&&(Number(start.slice(2,4)) <=59)) && 
         ((Number(end.slice(0,2)) >= 0)&&(Number(end.slice(0,2)) <= 23)) && ((Number(end.slice(2,4)) >=0 )&&(Number(end.slice(2,4)) <=59))){
@@ -74,6 +81,12 @@ const AddModal = () =>{
       }
       else{
         console.log("Passed Test")
+        console.log("Selected Time is"+selectedTime)
+        let item: Item = {
+          date: selected_date,
+          hours:'8'
+        }
+        addItem(item)
         setModalVisible()
       }
   }, [validationCheck]);

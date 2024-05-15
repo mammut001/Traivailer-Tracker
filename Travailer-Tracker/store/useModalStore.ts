@@ -30,7 +30,8 @@ export const useValidationCheckStatusStore = create<validationStore>() ((set)=>(
 
 type ModalStatusStore = {
     OnDisplay:boolean,
-    updateModalStatus: () =>void
+    updateModalStatus: () =>void,
+    resetModalStatus: () => void,
 }
 
 export const useModalStatusStore = create<ModalStatusStore>() ((set)=> ({
@@ -44,6 +45,8 @@ export const useModalStatusStore = create<ModalStatusStore>() ((set)=> ({
         return{
             OnDisplay:!state.OnDisplay
         }
-    })
-
+    }),
+    resetModalStatus: ()=> set(()=>({
+        OnDisplay:false
+    }))
 }))

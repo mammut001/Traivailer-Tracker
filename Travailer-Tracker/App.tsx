@@ -35,8 +35,8 @@ export default function App() {
       newMarkedDates[item.date] ={
         selected: true,
         marked: true,
-        dotColor: 'red', 
-        selectedColor: 'green'
+        dotColor: 'black',
+        selectedColor: 'cyan'
       }
     })
     setSelectedDates(newMarkedDates);

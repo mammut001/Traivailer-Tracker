@@ -12,6 +12,7 @@ const AddModal = () =>{
 
     const status = useModalStatusStore(state =>state.OnDisplay)
     const setModalVisible = useModalStatusStore(state => state.updateModalStatus)
+    const resetMaodalStatus = useModalStatusStore(state => state.resetModalStatus)
     const [text, onChangeText] = React.useState('');
 
     const [selectedTime, setSelectedTime] = React.useState(['','']) //0: start, 1:end
@@ -37,7 +38,6 @@ const AddModal = () =>{
           onChangeText(newText)
         }
       }
-      console.log("Length is "+text.length + " New Length is "+ newText.length)
 
     }
     const validateTest = () =>{
@@ -51,7 +51,6 @@ const AddModal = () =>{
         const end = splitted[1]
         setSelectedTime([start,end])
         
-        Number(start.slice(0, 2)) === 1
         if(((Number(start.slice(0,2)) >= 0)&&(Number(start.slice(0,2)) <= 23)) && ((Number(start.slice(2,4)) >=0 )&&(Number(start.slice(2,4)) <=59)) && 
         ((Number(end.slice(0,2)) >= 0)&&(Number(end.slice(0,2)) <= 23)) && ((Number(end.slice(2,4)) >=0 )&&(Number(end.slice(2,4)) <=59))){
           setValidationStatus(true)
@@ -88,11 +87,15 @@ const AddModal = () =>{
         }
         addItem(item)
         setModalVisible()
+
+        //Clear Up
+        onChangeText('')
+        resetMaodalStatus()
       }
   }, [validationCheck]);
 
     const androidModalStyle = ()=>{
-      if(onFocus === false){
+      if(!onFocus){
         return ModalStyles.AndroidModalViewModalOff
       }
       else{

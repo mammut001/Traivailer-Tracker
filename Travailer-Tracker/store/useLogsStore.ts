@@ -1,7 +1,8 @@
 import {create} from 'zustand'
 export type Item = {
     date:string,
-    hours:string
+    hours:string,
+    minute:string
 }
 type DataListStore = {
     dataList: Item[],

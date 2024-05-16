@@ -4,22 +4,33 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native
 import { useDataListStore,} from "../store/useLogsStore"
 import { SwipeListView } from 'react-native-swipe-list-view';
 import {Item} from "../store/useLogsStore";
+import React from "react";
 
 const WorkLogList = () =>{
     const data = useDataListStore(state =>state.dataList)
     const deleteAction = useDataListStore(state => state.deteleItem)
 
+    const [hourString, setHourString] = React.useState('hr')
 
     const handleDelete = (item:Item) => {
         const key = item.date
         deleteAction(key)
     };
 
-    const renderItem = ({ item }: { item: Item }) => (
-        <View style={styles.rowFront}>
-            <Text>{item.date} - {item.hours} hrs</Text>
-        </View>
-    );
+    const renderItem = ({ item }: { item: Item }) => {
+
+        return(
+            Number(item.hours) > 1?
+            (<View style={styles.rowFront}>
+                <Text>{item.date} - {item.hours} hrs, {item.minute} mins</Text>
+                </View>):
+                (<View style={styles.rowFront}>
+                    <Text>{item.date} - {item.hours} hr, {item.minute} mins</Text>
+                    </View>)
+
+            )
+
+    };
     const renderHiddenItem = ({ item }: { item: Item }) => (
         <View style={styles.rowBack}>
             <TouchableOpacity

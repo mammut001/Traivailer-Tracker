@@ -54,11 +54,33 @@ const AddModal = () =>{
       console.log("Modal will close. Current validationCheck:", validationCheck);
       if (validationCheck) {
         console.log("Adding item with selected time:", selectedTime);
-        let item = {
+
+        const startHour:number = Number(selectedTime[0].substring(0,2))
+        const startMinute:number = Number(selectedTime[0].substring(2,4))
+
+        const endHour:number = Number(selectedTime[1].substring(0,2))
+        const endMinute:number = Number(selectedTime[1].substring(2,4))
+
+        let updatedHour = endHour - startHour
+        let updatedMinute = endMinute - startMinute
+        if(updatedMinute < 0){
+          // if is negative, subtract one hour from updatedHour
+          updatedHour = updatedHour - 1
+          updatedMinute += 60
+        }
+        console.log("Updated Hour is :"+updatedHour+" updated mins is "+ updatedMinute)
+
+        console.log("Start Is "+startHour)
+        console.log("Start Minute Is "+startMinute)
+
+        console.log("End Is "+endHour)
+        console.log("End Minute Is "+endMinute)
+        let item:Item = {
           date: selected_date,
-          hours: selectedTime.toString()
-        };
-        addItem(item);
+          hours: updatedHour.toString(),
+          minute: updatedMinute.toString()
+        }
+        addItem(item)
         reset()
       }
 }, [validationCheck, addItem, selectedTime, selected_date, setModalVisible, setOnFocus, resetMaodalStatus]);

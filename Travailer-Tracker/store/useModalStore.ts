@@ -46,3 +46,14 @@ export const useModalStatusStore = create<ModalStatusStore>() ((set)=> ({
         OnDisplay:false
     }))
 }))
+
+type sliderValueStore = {
+    sliderValue:number[],
+    updateSliderValue: (newVal: number[]) =>void
+}
+
+export const useSliderValueStore = create<sliderValueStore>() ((set)=> ({
+    sliderValue:[5],
+    updateSliderValue: (newVal: number[]) => set({sliderValue:newVal})
+}))
+

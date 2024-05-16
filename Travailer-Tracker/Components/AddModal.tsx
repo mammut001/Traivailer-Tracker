@@ -1,5 +1,10 @@
 import {Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, Platform} from 'react-native';
-import { useModalStatusStore,useOnFocusStore, useValidationCheckStatusStore } from "../store/useModalStore"
+import {
+    useModalStatusStore,
+    useOnFocusStore,
+    useSliderValueStore,
+    useValidationCheckStatusStore
+} from "../store/useModalStore"
 import React,{useEffect} from 'react';
 import DualThumbSlider from './Slider';
 import { useDataListStore } from '../store/useLogsStore';
@@ -23,6 +28,9 @@ const AddModal = () =>{
     const setValidationStatus = useValidationCheckStatusStore(state => state.setValidationCheckStatus)
     // var errorMsg = ""
     const [errorMsg, setErrorMsg] = React.useState('');
+
+
+    const sliderValue = useSliderValueStore(state => state.sliderValue)
 
     const validateTest = () => {
       console.log("Executing checks!")
@@ -75,6 +83,10 @@ const AddModal = () =>{
 
         console.log("End Is "+endHour)
         console.log("End Minute Is "+endMinute)
+
+
+        console.log("Slider Value Is "+sliderValue.toString())
+
         let item:Item = {
           date: selected_date,
           hours: updatedHour.toString(),

@@ -12,11 +12,11 @@ const DualThumbSlider = () => {
         setSliderVal(newVal)
     };
 
+
+
+
     return (
         <View style={styles.container}>
-            <Text></Text>
-            <View style={styles.text}>
-            </View>
             <Slider
                     value={sliderVal}
                     minimumValue={1}
@@ -25,8 +25,11 @@ const DualThumbSlider = () => {
                     trackClickable={true}
                     onValueChange={handleValueChange}
             />
+            {sliderVal[0] > 1
+                ?<Text style={styles.breakText}>Break Time: {sliderVal} hrs</Text>
+                :<Text style={styles.breakText}>Break Time: {sliderVal} hr</Text>
+            }
 
-            <Text style={{justifyContent:'space-between'}}>Break Time: {sliderVal} hr</Text>
         </View>
     );
 };
@@ -38,9 +41,9 @@ const styles = StyleSheet.create({
         padding: 20,
         width: '100%'
     },
-    text:{
-        flexDirection:'row',
-        justifyContent:'space-between'
+    breakText:{
+        textAlign: 'center',
+        marginTop: 20
     }
 });
 

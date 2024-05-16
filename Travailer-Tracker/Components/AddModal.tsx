@@ -26,11 +26,16 @@ const AddModal = () =>{
 
     const validationCheck = useValidationCheckStatusStore(state => state.validationCheck)
     const setValidationStatus = useValidationCheckStatusStore(state => state.setValidationCheckStatus)
-    // var errorMsg = ""
+
     const [errorMsg, setErrorMsg] = React.useState('');
 
 
     const sliderValue = useSliderValueStore(state => state.sliderValue)
+
+    const [updatedHour, setUpdatedHour] = React.useState(-1)
+    const [updatedMinute, setUpdatedMinute] = React.useState(-1)
+
+
 
     const validateTest = () => {
       console.log("Executing checks!")
@@ -43,9 +48,51 @@ const AddModal = () =>{
         if (Number(start.slice(0,2)) >= 0 && Number(start.slice(0,2)) <= 23 &&
             Number(start.slice(2,4)) >= 0 && Number(start.slice(2,4)) <= 59 &&
             Number(end.slice(0,2)) >= 0 && Number(end.slice(0,2)) <= 23 &&
-            Number(end.slice(2,4)) >= 0 && Number(end.slice(2,4)) <= 59) {
+            Number(end.slice(2,4)) >= 0 && Number(end.slice(2,4)) <= 59)
+        {
+
+
+          const startHour:number = Number(selectedTime[0].substring(0,2))
+          const startMinute:number = Number(selectedTime[0].substring(2,4))
+
+          const endHour:number = Number(selectedTime[1].substring(0,2))
+          const endMinute:number = Number(selectedTime[1].substring(2,4))
+
+          let newUpdatedHour = endHour - startHour
+          let newUpdatedMinute = endMinute - startMinute
+          if(updatedMinute < 0){
+          // if is negative, subtract one hour from updatedHour
+          newUpdatedHour =newUpdatedHour - 1
+          newUpdatedMinute += 60
+
+          }
+
+          setUpdatedHour(newUpdatedHour)
+          setUpdatedMinute(newUpdatedMinute)
+
+          if(newUpdatedHour - sliderValue[0] < 0){
+            setErrorMsg("Sorry, rest hour is bigger than actual work hour.")
+            setValidationStatus(false)
+          }
+          else{
+            setValidationStatus(true)
+            setErrorMsg("")
+
+          }
+
+
+          console.log("Updated Hour is :"+updatedHour+" updated mins is "+ updatedMinute)
+
+          console.log("Start Is "+startHour)
+          console.log("Start Minute Is "+startMinute)
+
+          console.log("End Is "+endHour)
+          console.log("End Minute Is "+endMinute)
+
+
+          console.log("Slider Value Is "+sliderValue.toString())
+
           console.log("Time validation passed")
-          setValidationStatus(true)
         } else {
           setErrorMsg("Sorry, please retry.")
           setValidationStatus(false)
@@ -62,30 +109,6 @@ const AddModal = () =>{
       console.log("Modal will close. Current validationCheck:", validationCheck);
       if (validationCheck) {
         console.log("Adding item with selected time:", selectedTime);
-
-        const startHour:number = Number(selectedTime[0].substring(0,2))
-        const startMinute:number = Number(selectedTime[0].substring(2,4))
-
-        const endHour:number = Number(selectedTime[1].substring(0,2))
-        const endMinute:number = Number(selectedTime[1].substring(2,4))
-
-        let updatedHour = endHour - startHour
-        let updatedMinute = endMinute - startMinute
-        if(updatedMinute < 0){
-          // if is negative, subtract one hour from updatedHour
-          updatedHour = updatedHour - 1
-          updatedMinute += 60
-        }
-        console.log("Updated Hour is :"+updatedHour+" updated mins is "+ updatedMinute)
-
-        console.log("Start Is "+startHour)
-        console.log("Start Minute Is "+startMinute)
-
-        console.log("End Is "+endHour)
-        console.log("End Minute Is "+endMinute)
-
-
-        console.log("Slider Value Is "+sliderValue.toString())
 
         let item:Item = {
           date: selected_date,
@@ -107,6 +130,7 @@ const AddModal = () =>{
       }
       setValidationStatus(false)
       onChangeText('')
+      setErrorMsg("")
     }
     const handleOnChangeInputText = (newText:string) =>{
       if (newText.length < 10){

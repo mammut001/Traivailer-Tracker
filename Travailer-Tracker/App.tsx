@@ -50,7 +50,7 @@ export default function App() {
       setDayString(todayDateString)
       updateDate(todayDateString)
     }
-    setModalVisible()
+    setModalVisible(true)
   }
   return (
     <View style={styles.calendars}>
@@ -59,19 +59,20 @@ export default function App() {
           console.log('selected day', day);
           updateDate(String(day.dateString))
           setDayString(String(day.dateString))
+          handleTurnOnModal()
         }}
         markedDates={{
           [dayString]: {selected: true, marked: true, selectedColor: 'pink',},
           ...selectedDates
         }}
       />
-      <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={handleTurnOnModal}>
-          <Text style={styles.textStyle}>Add</Text>
-        </Pressable>
+      {/*<Pressable*/}
+      {/*    style={[styles.button, styles.buttonOpen]}*/}
+      {/*    onPress={handleTurnOnModal}>*/}
+      {/*    <Text style={styles.textStyle}>Add</Text>*/}
+      {/*  </Pressable>*/}
 
-      <SelectedDate/>
+      {/*<SelectedDate/>*/}
       <WorkLogList/>
       <AddModal/>
     </View>

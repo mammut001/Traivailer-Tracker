@@ -24,12 +24,61 @@ const AddModal = () =>{
     // var errorMsg = ""
     const [errorMsg, setErrorMsg] = React.useState('');
 
+    const validateTest = () => {
+      console.log("Executing checks!")
+      const regex = /^(\d{4})-(\d{4})$/
+      const match = text.match(regex)
+      if (match) {
+        const [start, end] = text.split("-")
+        setSelectedTime([start, end])
 
+        if (Number(start.slice(0,2)) >= 0 && Number(start.slice(0,2)) <= 23 &&
+            Number(start.slice(2,4)) >= 0 && Number(start.slice(2,4)) <= 59 &&
+            Number(end.slice(0,2)) >= 0 && Number(end.slice(0,2)) <= 23 &&
+            Number(end.slice(2,4)) >= 0 && Number(end.slice(2,4)) <= 59) {
+          console.log("Time validation passed")
+          setValidationStatus(true)
+        } else {
+          setErrorMsg("Sorry, please retry.")
+          setValidationStatus(false)
+          console.log("Time validation failed")
+        }
+      } else {
+        setErrorMsg("Pattern is wrong.")
+        setValidationStatus(false)
+        console.log("Regex match failed")
+      }
+    };
+
+    useEffect(() => {
+      console.log("Modal will close. Current validationCheck:", validationCheck);
+      if (validationCheck) {
+        console.log("Adding item with selected time:", selectedTime);
+        let item = {
+          date: selected_date,
+          hours: selectedTime.toString()
+        };
+        addItem(item);
+        reset()
+      }
+}, [validationCheck, addItem, selectedTime, selected_date, setModalVisible, setOnFocus, resetMaodalStatus]);
+
+    //
+    const reset = () => {
+      setModalVisible(false)
+      setOnFocus(false)
+      resetMaodalStatus()
+      if (selectedTime[0] !== '' || selectedTime[1] !== '') {
+      setSelectedTime(['', ''])
+      }
+      setValidationStatus(false)
+      onChangeText('')
+    }
     const handleOnChangeInputText = (newText:string) =>{
       if (newText.length < 10){
         if(newText.length < text.length){
           onChangeText(newText)
-  
+
         }
         else{
           if(text.length === 3 && newText.length === 4){
@@ -40,59 +89,8 @@ const AddModal = () =>{
       }
 
     }
-    const validateTest = () =>{
-      console.log("Executing checks!")
-      const regx = /^(\d{4})-(\d{4})$/
-      const match = text.match(regx)
-      if(match){
-        // proceed to next
-        const splitted = text.split("-")
-        const start = splitted[0]
-        const end = splitted[1]
-        setSelectedTime([start,end])
-        
-        if(((Number(start.slice(0,2)) >= 0)&&(Number(start.slice(0,2)) <= 23)) && ((Number(start.slice(2,4)) >=0 )&&(Number(start.slice(2,4)) <=59)) && 
-        ((Number(end.slice(0,2)) >= 0)&&(Number(end.slice(0,2)) <= 23)) && ((Number(end.slice(2,4)) >=0 )&&(Number(end.slice(2,4)) <=59))){
-          setValidationStatus(true)
-          console.log("passed 111")
-        }
-        else{
-          setErrorMsg("Sorry, please retry.")
-          setValidationStatus(false)
-          console.log("did not passed 222")
 
 
-        }
-
-      }
-      else{
-        setErrorMsg("pattern is wrong.")
-        setValidationStatus(false)
-        console.log("did not passed 333")
-
-      }
-
-    }
-    useEffect(() => {
-      console.log("Validation status changed: ", validationCheck);
-      if (!validationCheck) {
-          console.log("Failed Test!");
-      }
-      else{
-        console.log("Passed Test")
-        console.log("Selected Time is"+selectedTime)
-        let item: Item = {
-          date: selected_date,
-          hours:'8'
-        }
-        addItem(item)
-        setModalVisible()
-
-        //Clear Up
-        onChangeText('')
-        resetMaodalStatus()
-      }
-  }, [validationCheck]);
 
     const androidModalStyle = ()=>{
       if(!onFocus){
@@ -114,19 +112,19 @@ const AddModal = () =>{
           visible={status}
           onRequestClose={() => {
             // theoretically, user should not request to close, but if they do, call setOnFocus to resize the modals.
-            Alert.alert('Modal has been closed.');
-            setModalVisible();
-            setOnFocus()
+            Alert.alert('Modal has been closed.')
+            setModalVisible(false)
+            setOnFocus(false)
           }}>
           <View style={styles.centeredView}>
             <View style={modalStyle}>
             {/* <Text style={styles.warning}>Enter time range, eg: 1200-2130</Text> */}
             <TextInput
-              
+
               style={styles.inputTextField}
               onChangeText={handleOnChangeInputText}
               value={text}
-              onFocus={setOnFocus}
+              onFocus={()=>setOnFocus(true)}
               placeholder='Enter range eg. 1200-1600'
               keyboardType='numeric'
             />
@@ -137,6 +135,7 @@ const AddModal = () =>{
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
                   validateTest()
+
                 }}>
                 <Text style={styles.textStyle}>Submit</Text>
               </Pressable>
@@ -184,7 +183,7 @@ const ModalStyles = StyleSheet.create({
     elevation: 5,
   },
 
-  
+
   IOSModalView: {
     margin: 20,
     backgroundColor: 'white',
@@ -208,7 +207,7 @@ const styles = StyleSheet.create({
     warning:{
       fontSize:15,
       color:'red'
-    
+
     },
     inputTextField: {
         height: 35,
@@ -247,6 +246,6 @@ const styles = StyleSheet.create({
     },
   });
 
-  
+
 
 export default AddModal

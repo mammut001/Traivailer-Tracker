@@ -66,13 +66,7 @@ export default function App() {
           ...selectedDates
         }}
       />
-      {/*<Pressable*/}
-      {/*    style={[styles.button, styles.buttonOpen]}*/}
-      {/*    onPress={handleTurnOnModal}>*/}
-      {/*    <Text style={styles.textStyle}>Add</Text>*/}
-      {/*  </Pressable>*/}
 
-      {/*<SelectedDate/>*/}
       <WorkLogList/>
       <AddModal/>
     </View>

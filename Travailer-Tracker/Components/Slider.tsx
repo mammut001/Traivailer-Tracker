@@ -3,7 +3,6 @@ import { View, Text, StyleSheet,Platform, Button } from 'react-native';
 import { Slider } from '@miblanchard/react-native-slider';
 import {useModalStatusStore, useSliderValueStore} from "../store/useModalStore";
 const DualThumbSlider = () => {
-    const [sliderValue, setSliderValue] = useState([6]);
     const sliderVal = useSliderValueStore(state => state.sliderValue)
     const setSliderVal = useSliderValueStore(state => state.updateSliderValue)
 
@@ -19,8 +18,8 @@ const DualThumbSlider = () => {
         <View style={styles.container}>
             <Slider
                     value={sliderVal}
-                    minimumValue={1}
-                    maximumValue={6}
+                    minimumValue={0}
+                    maximumValue={5}
                     step={1}
                     trackClickable={true}
                     onValueChange={handleValueChange}

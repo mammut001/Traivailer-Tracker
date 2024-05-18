@@ -53,7 +53,7 @@ type sliderValueStore = {
 }
 
 export const useSliderValueStore = create<sliderValueStore>() ((set)=> ({
-    sliderValue:[5],
+    sliderValue:[0],
     updateSliderValue: (newVal: number[]) => set({sliderValue:newVal})
 }))
 

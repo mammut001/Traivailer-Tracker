@@ -8,23 +8,6 @@ import {Item} from "../store/useLogsStore";
 import * as React from 'react';
 
 import { TabView, SceneMap } from 'react-native-tab-view';
-const FirstRoute = () => (
-  <View style={{ flex: 1, backgroundColor: '#ff4081'}} >
-      <Text>
-          1
-      </Text>
-  </View>
-);
-
-const SecondRoute = () => (
-  <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
-);
-
-const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-});
-
 
 
 const WorkLogList = () =>{
@@ -71,24 +54,39 @@ const WorkLogList = () =>{
     ]);
 
 
+    const FirstRoute = () => (
+      <View style={styles.routeContainer} >
+          <SwipeListView
+            data={data}
+            renderItem={renderItem}
+            renderHiddenItem={renderHiddenItem}
+            leftOpenValue={75}
+            rightOpenValue={0}
+          />
+      </View>
+    );
+
+    const SecondRoute = () => (
+      <View style={styles.routeContainer} />
+    );
+
+    const renderScene = SceneMap({
+        first: FirstRoute,
+        second: SecondRoute,
+    });
+
 
     return(
       <SafeAreaProvider>
           <View style={styles.container}>
-              <SwipeListView
-                  data={data}
-                  renderItem={renderItem}
-                  renderHiddenItem={renderHiddenItem}
-                  leftOpenValue={75}
-                  rightOpenValue={0}
-                  />
-              {/*<TabView*/}
-              {/*  style={styles.tabview}*/}
-              {/*  navigationState={{ index, routes }}*/}
-              {/*  renderScene={renderScene}*/}
-              {/*  onIndexChange={setIndex}*/}
-              {/*  initialLayout={{ width: layout.width }}*/}
-              {/*/>*/}
+
+              <TabView
+                style={styles.tabview}
+                navigationState={{ index, routes }}
+                renderScene={renderScene}
+                onIndexChange={setIndex}
+                initialLayout={{ width: layout.width }}
+              />
 
           </View>
 
@@ -107,7 +105,11 @@ const styles = StyleSheet.create({
         flex:1
     },
     tabview:{
-        height:'100%'
+        height:990
+    },
+    routeContainer: {
+        flex: 1,
+        backgroundColor: '#fff',
     },
     rowFront: {
         alignItems: 'center',

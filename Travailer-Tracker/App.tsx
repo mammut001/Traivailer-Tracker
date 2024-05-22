@@ -20,7 +20,7 @@ export default function App() {
   const setModalVisible = useModalStatusStore(state => state.updateModalStatus)
   const [dayString, setDayString] = useState('')
 
-
+  const status = useModalStatusStore(state => state.OnDisplay)
   const dates = useDataListStore(state => state.dataList)
 
 

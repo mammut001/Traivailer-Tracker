@@ -156,7 +156,6 @@
       const modalStyle = Platform.OS === 'ios'? ModalStyles.IOSModalView: androidModalStyle()
 
       return(
-          <View style={styles.centeredView}>
 
           <Modal
             animationType="slide"
@@ -207,7 +206,6 @@
             </View>
           </Modal>
 
-        </View>
 
       )
   }

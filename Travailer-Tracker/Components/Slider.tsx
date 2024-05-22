@@ -10,10 +10,6 @@ const DualThumbSlider = () => {
     const handleValueChange = (newVal: number[]) => {
         setSliderVal(newVal)
     };
-
-
-
-
     return (
         <View style={styles.container}>
             <Slider

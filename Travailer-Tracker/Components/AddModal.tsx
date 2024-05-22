@@ -1,4 +1,4 @@
-  import {Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, Platform} from 'react-native';
+  import {Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, Platform,Vibration} from 'react-native';
   import {
       useModalStatusStore,
       useOnFocusStore,
@@ -10,11 +10,9 @@
   import { useDataListStore } from '../store/useLogsStore';
   import { useSelectedDateStore } from '../store/useSelectedDateStore';
   import { Item } from '../store/useLogsStore';
-
   const AddModal = () =>{
       const selected_date = useSelectedDateStore(state => state.date)
       const addItem = useDataListStore(state => state.addItem)
-
       const status = useModalStatusStore(state =>state.OnDisplay)
       const setModalVisible = useModalStatusStore(state => state.updateModalStatus)
       const resetMaodalStatus = useModalStatusStore(state => state.resetModalStatus)
@@ -150,6 +148,10 @@
           return ModalStyles.AndroidModalViewModalOn
         }
       }
+      const handleClose = () =>{
+        setModalVisible(false)
+        Vibration.vibrate()
+      }
 
       const modalStyle = Platform.OS === 'ios'? ModalStyles.IOSModalView: androidModalStyle()
 
@@ -167,7 +169,19 @@
               setOnFocus(false)
             }}>
             <View style={styles.centeredView}>
+
               <View style={modalStyle}>
+
+
+                <Pressable onPress={handleClose} style={styles.closeButton}>
+                  <View>
+                    <Text style={styles.closeModal}>
+                      x
+                    </Text>
+                  </View>
+                </Pressable>
+
+
               {/* <Text style={styles.warning}>Enter time range, eg: 1200-2130</Text> */}
               <TextInput
 
@@ -215,6 +229,7 @@
       shadowRadius: 4,
       elevation: 5,
     },
+
     AndroidModalViewModalOn: {
       margin: 20,
       backgroundColor: 'white',
@@ -257,8 +272,15 @@
       warning:{
         fontSize:15,
         color:'red'
-
       },
+      closeModal: {
+        color: 'red',
+        textAlign: "right",
+      },
+      closeButton: {
+        width: '100%',
+      },
+
       inputTextField: {
           height: 35,
           borderWidth: 1,
@@ -271,7 +293,6 @@
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 22,
       },
 
       button: {

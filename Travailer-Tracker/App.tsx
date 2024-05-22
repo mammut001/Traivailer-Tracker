@@ -1,4 +1,4 @@
-import { StyleSheet, View} from 'react-native';
+import {StyleSheet, View, StatusBar, SafeAreaView} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import { useSelectedDateStore } from './store/useSelectedDateStore';
 import WorkLogList from './Components/WorkLogList';
@@ -55,22 +55,26 @@ export default function App() {
     setModalVisible(true)
   }
   return (
-    <View style={styles.calendars}>
-      <Calendar
-        onDayPress={(day) => {
-          console.log('selected day', day);
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.calendars}>
+        <Calendar
+          onDayPress={(day) => {
+            console.log('selected day', day);
 
-          handleTurnOnModal(day.dateString)
-        }}
-        markedDates={{
-          [dayString]: {selected: true, marked: true, selectedColor: 'pink',},
-          ...selectedDates
-        }}
-      />
+            handleTurnOnModal(day.dateString)
+          }}
+          markedDates={{
+            [dayString]: {selected: true, marked: true, selectedColor: 'pink',},
+            ...selectedDates
+          }}
+        />
 
-      <WorkLogList/>
-      <AddModal/>
-    </View>
+        <WorkLogList/>
+        <AddModal/>
+      </View>
+
+    </SafeAreaView>
+
   );
 }
 
@@ -78,19 +82,13 @@ const styles = StyleSheet.create({
   calendars: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 40
+    marginTop:40
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
+
   textStyle: {
     color: 'white',
     fontWeight: 'bold',

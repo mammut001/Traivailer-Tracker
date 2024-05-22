@@ -1,10 +1,31 @@
 
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, FlatList, TouchableOpacity,useWindowDimensions } from "react-native"
 import { useDataListStore,} from "../store/useLogsStore"
 import { SwipeListView } from 'react-native-swipe-list-view';
 import {Item} from "../store/useLogsStore";
-import React from "react";
+import * as React from 'react';
+
+import { TabView, SceneMap } from 'react-native-tab-view';
+const FirstRoute = () => (
+  <View style={{ flex: 1, backgroundColor: '#ff4081'}} >
+      <Text>
+          1
+      </Text>
+  </View>
+);
+
+const SecondRoute = () => (
+  <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
+);
+
+const renderScene = SceneMap({
+    first: FirstRoute,
+    second: SecondRoute,
+});
+
+
 
 const WorkLogList = () =>{
     const data = useDataListStore(state =>state.dataList)
@@ -34,26 +55,45 @@ const WorkLogList = () =>{
     const renderHiddenItem = ({ item }: { item: Item }) => (
         <View style={styles.rowBack}>
             <TouchableOpacity
-                style={[styles.backRightBtn, styles.backRightBtnRight]}
+                style={[styles.backLeftBtn, styles.backLeftBtnRight]}
                 onPress={() => handleDelete(item)}
             >
                 <Text style={styles.backTextWhite}>Delete</Text>
             </TouchableOpacity>
         </View>
     );
+    const layout = useWindowDimensions();
+
+    const [index, setIndex] = React.useState(0);
+    const [routes] = React.useState([
+        { key: 'first', title: 'Days' },
+        { key: 'second', title: 'Weeks' },
+    ]);
+
 
 
     return(
-        <View style={styles.container}>
-            <SwipeListView
-                data={data}
-                renderItem={renderItem}
-                renderHiddenItem={renderHiddenItem}
-                leftOpenValue={75}
-                rightOpenValue={-75}
-                />
+      <SafeAreaProvider>
+          <View style={styles.container}>
+              <SwipeListView
+                  data={data}
+                  renderItem={renderItem}
+                  renderHiddenItem={renderHiddenItem}
+                  leftOpenValue={75}
+                  rightOpenValue={0}
+                  />
+              {/*<TabView*/}
+              {/*  style={styles.tabview}*/}
+              {/*  navigationState={{ index, routes }}*/}
+              {/*  renderScene={renderScene}*/}
+              {/*  onIndexChange={setIndex}*/}
+              {/*  initialLayout={{ width: layout.width }}*/}
+              {/*/>*/}
 
-        </View>
+          </View>
+
+      </SafeAreaProvider>
+
     )
 }
 
@@ -63,7 +103,11 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         height:'100%',
-        marginBottom:30
+        marginBottom:30,
+        flex:1
+    },
+    tabview:{
+        height:'100%'
     },
     rowFront: {
         alignItems: 'center',
@@ -82,7 +126,7 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15,
     },
-    backRightBtn: {
+    backLeftBtn: {
         alignItems: 'center',
         bottom: 0,
         justifyContent: 'center',
@@ -90,9 +134,9 @@ const styles = StyleSheet.create({
         top: 0,
         width: 75,
     },
-    backRightBtnRight: {
+    backLeftBtnRight: {
         backgroundColor: 'red',
-        right: 0,
+        left: 0,
     },
     backTextWhite: {
         color: '#FFF',

@@ -1,7 +1,7 @@
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { View, Text, StyleSheet, FlatList, TouchableOpacity,useWindowDimensions } from "react-native"
+import {View, Text, StyleSheet, FlatList, TouchableOpacity, useWindowDimensions, Vibration} from "react-native"
 import { useDataListStore,} from "../store/useLogsStore"
 import { SwipeListView } from 'react-native-swipe-list-view';
 import {Item} from "../store/useLogsStore";
@@ -46,7 +46,10 @@ const WorkLogList = () =>{
         <View style={styles.rowBack}>
             <TouchableOpacity
                 style={[styles.backLeftBtn, styles.backLeftBtnLeft]}
-                onPress={() => handleDelete(item)}
+                onPress={() => {
+                  handleDelete(item)
+                  Vibration.vibrate()
+                }}
             >
                 <Text style={styles.backTextWhite}>Delete</Text>
             </TouchableOpacity>
